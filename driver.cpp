@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
 	vector<double> january;
 	vector<double> july;
 
-	//ifstream file("input.txt");
-	ifstream file("test.txt");
+	ifstream file("input.txt");
+	//ifstream file("test.txt");
 	//ofstream output_file;
 	//output_file.open("output.txt");
 	double jan;
@@ -69,7 +69,19 @@ int main(int argc, char* argv[]) {
 	m(0, 1) = january_july_variance/(january.size()-1);
 	m(1, 1) = july_variance/(july.size()-1);
 
-	std::cout << m << std::endl;
+	//std::cout << m << std::endl;
+
+	EigenSolver<MatrixXd> es(m);
+	cout << "Eigen values: " << endl << es.eigenvalues() << endl << endl;
+	cout << "Eigen vectors: " << endl << es.eigenvectors() << endl << endl;
+
+	cout << "January variance: " << january_variance/(january.size()-1) << " is " << 100*(january_variance/(january_variance + july_variance)) << "%";
+	cout << " of the total variance." << endl;
+
+	cout << "July variance: " << july_variance/(january.size()-1) << " is " << 100*(july_variance/(january_variance + july_variance)) << "%";
+	cout << " of the total variance." << endl;
+
+	cout << "Total variance: " << (january_variance/(january.size()-1)) + (july_variance/(january.size()-1)) << endl;
 
 	return 0;
 }
