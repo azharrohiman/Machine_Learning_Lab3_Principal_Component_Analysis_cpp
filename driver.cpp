@@ -18,9 +18,8 @@ int main(int argc, char* argv[]) {
 	vector<double> july;
 
 	ifstream file("input.txt");
-	//ifstream file("test.txt");
-	//ofstream output_file;
-	//output_file.open("output.txt");
+	ofstream output_file;
+	output_file.open("output.txt");
 	double jan;
 	double jul;
 
@@ -37,12 +36,8 @@ int main(int argc, char* argv[]) {
 		y_total += july.at(i);
 	}
 
-	cout << "Total for January is: " << x_total << " and total for July is: " << y_total << endl;
-
 	double x_mean = x_total/january.size();
 	double y_mean = y_total/july.size();
-
-	cout << "Mean for January is: " << x_mean << " and mean for July is: " << y_mean << endl;
 
 	for (int i = 0; i < january.size(); i++) {
 		january.at(i) -= x_mean;
@@ -61,27 +56,29 @@ int main(int argc, char* argv[]) {
 		january_july_variance += january.at(i) * july.at(i);
 	}
 
-	//cout << january_variance/january.size() << endl;
-
 	MatrixXd m(2, 2);
 	m(0, 0) = january_variance/(january.size()-1);
 	m(1, 0) = january_july_variance/(january.size()-1);
 	m(0, 1) = january_july_variance/(january.size()-1);
 	m(1, 1) = july_variance/(july.size()-1);
 
-	//std::cout << m << std::endl;
+	cout << "Outputting results to text file" << endl;
 
 	EigenSolver<MatrixXd> es(m);
-	cout << "Eigen values: " << endl << es.eigenvalues() << endl << endl;
-	cout << "Eigen vectors: " << endl << es.eigenvectors() << endl << endl;
+	//cout << "Eigen values: " << endl << es.eigenvalues() << endl << endl;
+	output_file << "Eigen values: " << endl << es.eigenvalues() << endl << endl;
 
-	cout << "January variance: " << january_variance/(january.size()-1) << " is " << 100*(january_variance/(january_variance + july_variance)) << "%";
-	cout << " of the total variance." << endl;
+	//cout << "Eigen vectors: " << endl << es.eigenvectors() << endl << endl;
+	output_file << "Eigen vectors: " << endl << es.eigenvectors() << endl << endl;
 
-	cout << "July variance: " << july_variance/(january.size()-1) << " is " << 100*(july_variance/(january_variance + july_variance)) << "%";
-	cout << " of the total variance." << endl;
+	//cout << "Total variance: " << (january_variance/(january.size()-1)) + (july_variance/(january.size()-1)) << endl;
+	output_file << "Total variance: " << (january_variance/(january.size()-1)) + (july_variance/(january.size()-1)) << endl;
 
-	cout << "Total variance: " << (january_variance/(january.size()-1)) + (july_variance/(january.size()-1)) << endl;
+	//cout << "January variance: " << january_variance/(january.size()-1) << " is " << 100*(january_variance/(january_variance + july_variance)) << "%" << " of the total variance" << endl;
+	output_file << "January variance: " << january_variance/(january.size()-1) << " is " << 100*(january_variance/(january_variance + july_variance)) << "%" << " of the total variance" << endl;
+
+	//cout << "July variance: " << july_variance/(january.size()-1) << " is " << 100*(july_variance/(january_variance + july_variance)) << "%" << " of the total variance" << endl;
+	output_file << "July variance: " << july_variance/(january.size()-1) << " is " << 100*(july_variance/(january_variance + july_variance)) << "%" << " of the total variance" << endl;
 
 	return 0;
 }
