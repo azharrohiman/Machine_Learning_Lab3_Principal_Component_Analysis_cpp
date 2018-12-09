@@ -1,0 +1,11 @@
+Eigen values: 
+(154.311,0)
+(9.16296,0)
+
+Eigen vectors: 
+ (0.939141,0) (-0.343532,0)
+ (0.343532,0)  (0.939141,0)
+
+Total variance: 163.474
+January variance: 137.181 is 83.9164% of the total variance
+July variance: 26.2925 is 16.0836% of the total variance
